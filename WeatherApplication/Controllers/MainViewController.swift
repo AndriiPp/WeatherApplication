@@ -79,58 +79,39 @@ class MainViewController: UIViewController {
     }()
     let serchWeatherOnTodayButton : UIButton = {
         let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setupButton()
         button.setTitle("Start", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 5
-        button.layer.masksToBounds = true
-        button.backgroundColor = UIColor.darkGray
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.addTarget(self, action: #selector(searchWeatherForCity), for: .touchUpInside)
         return button
     }()
     let addCityToOfflineListButton : UIButton = {
         let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setupButton()
         button.setTitle("Add city", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 5
-        button.layer.masksToBounds = true
-        button.backgroundColor = UIColor.darkGray
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.addTarget(self, action: #selector(addCityToOfflineList), for: .touchUpInside)
         return button
     }()
     let openDetailForecastButton : UIButton = {
         let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setupButton()
         button.setTitle("Detail forecast", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 5
-        button.layer.masksToBounds = true
-        button.backgroundColor = UIColor.darkGray
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.addTarget(self, action: #selector(showDetailForecastTableViewController), for: .touchUpInside)
         return button
     }()
     let openOfflineListButtonButton : UIButton = {
         let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setupButton()
         button.setTitle("Offline", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 5
-        button.layer.masksToBounds = true
-        button.backgroundColor = UIColor.darkGray
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.addTarget(self, action: #selector(showOfflineListOfWeather), for: .touchUpInside)
         return button
     }()
+
     //MARK:- Adding elements on view
     func setupSubviews(){
         view.addSubview(nameCityText)
         nameCityText.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
         nameCityText.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50).isActive = true
-        nameCityText.topAnchor.constraint(equalTo: view.topAnchor, constant: 66).isActive = true
+        nameCityText.topAnchor.constraint(equalTo: view.topAnchor, constant: 76).isActive = true
         nameCityText.heightAnchor.constraint(equalToConstant: 56).isActive = true
         
         view.addSubview(citySeparator)
@@ -143,7 +124,7 @@ class MainViewController: UIViewController {
         serchWeatherOnTodayButton.topAnchor.constraint(equalTo: citySeparator.bottomAnchor, constant: 12).isActive = true
         serchWeatherOnTodayButton.centerXAnchor.constraint(equalTo: nameCityText.centerXAnchor).isActive = true
         serchWeatherOnTodayButton.widthAnchor.constraint(equalTo: nameCityText.widthAnchor, multiplier: 2/3).isActive = true
-        serchWeatherOnTodayButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        serchWeatherOnTodayButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
         
         view.addSubview(inputsContainer)
         inputsContainer.topAnchor.constraint(equalTo: serchWeatherOnTodayButton.bottomAnchor, constant: 24).isActive = true
@@ -183,19 +164,19 @@ class MainViewController: UIViewController {
         openDetailForecastButton.topAnchor.constraint(equalTo: numberSeparator.bottomAnchor, constant: 12).isActive = true
         openDetailForecastButton.centerXAnchor.constraint(equalTo: numberDayText.centerXAnchor).isActive = true
         openDetailForecastButton.widthAnchor.constraint(equalTo: numberDayText.widthAnchor, multiplier: 2/3).isActive = true
-        openDetailForecastButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        openDetailForecastButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
         
         view.addSubview(addCityToOfflineListButton)
         addCityToOfflineListButton.topAnchor.constraint(equalTo: openDetailForecastButton.bottomAnchor, constant: 24).isActive = true
         addCityToOfflineListButton.centerXAnchor.constraint(equalTo: openDetailForecastButton.centerXAnchor).isActive = true
         addCityToOfflineListButton.widthAnchor.constraint(equalTo: openDetailForecastButton.widthAnchor).isActive = true
-        addCityToOfflineListButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        addCityToOfflineListButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
         
         view.addSubview(openOfflineListButtonButton)
         openOfflineListButtonButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -12).isActive = true
         openOfflineListButtonButton.centerXAnchor.constraint(equalTo: openDetailForecastButton.centerXAnchor).isActive = true
         openOfflineListButtonButton.widthAnchor.constraint(equalTo: openDetailForecastButton.widthAnchor).isActive = true
-        openOfflineListButtonButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        openOfflineListButtonButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -214,13 +195,13 @@ class MainViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 227, g: 243, b: 90)
         navigationItem.title = "Weather"
     }
-    
+    //MARK:- button methods
     @objc func searchWeatherForCity(){
         NetworkManager.isUnreachable { (_) in
             if self.nameCityText.text!.isEmpty {
-                self.cityIsEmptyAllertController()
+                self.invalidAllertController(title: "Validation error", message: "input the City")
             }
-            self.noInternetAllertController()
+            self.invalidAllertController(title: "Invalid Internet", message: "no internet access exist.")
         }
         NetworkManager.isReachable { (_) in
             self.city = self.nameCityText.text ?? ""
@@ -233,9 +214,7 @@ class MainViewController: UIViewController {
                         self.maxTemeratureLabel.text = "max temperature: " + String(weather.maxTemperature)
                     }
                 } else {
-                    DispatchQueue.main.async {
-                        self.invalidCityAllertController()
-                    }
+                        self.invalidAllertController(title: "Invalid City", message: "The city you typed in does not exist.")
                 }
             }
         }
@@ -243,7 +222,7 @@ class MainViewController: UIViewController {
     
     @objc func showDetailForecastTableViewController(){
         NetworkManager.isUnreachable { (_) in
-            self.noInternetAllertController()
+            self.invalidAllertController(title: "Invalid Internet", message: "no internet access exist.")
         }
         NetworkManager.isReachable { (_) in
             self.navigationController?.pushViewController(self.detailForecastTableViewController, animated: true)
@@ -254,7 +233,7 @@ class MainViewController: UIViewController {
     
     @objc func addCityToOfflineList(){
         NetworkManager.isUnreachable { (_) in
-            self.noInternetAllertController()
+            self.invalidAllertController(title: "Invalid Internet", message: "no internet access exist.")
         }
         NetworkManager.isReachable { (_) in
             if self.saveForecast() {
@@ -266,10 +245,10 @@ class MainViewController: UIViewController {
     @objc func showOfflineListOfWeather(){
         self.navigationController?.pushViewController(offlineCityListTableViewController, animated: true)
     }
-
+    //MARK:- private methods
     private func saveForecast() -> Bool {
         if nameCityText.text!.isEmpty {
-            cityIsEmptyAllertController()
+            invalidAllertController(title: "Validation error", message: "input the City")
             return false
         }
         OpenWeatherMapAPI.requestTodaysWeather(city: nameCityText.text!) { (weather) in
@@ -288,24 +267,10 @@ class MainViewController: UIViewController {
         }
         return true
     }
-    
-    private func invalidCityAllertController(){
-        let alert = UIAlertController(title: "Invalid City", message: "The city you typed in does not exist.", preferredStyle: .alert)
+    private func invalidAllertController(title : String, message : String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alert.addAction(okAction)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    private func noInternetAllertController(){
-        let alert = UIAlertController(title: "Invalid Internet", message: "no internet access exist.", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        alert.addAction(okAction)
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    private func cityIsEmptyAllertController(){
-        let alert = UIAlertController(title: "Validation error", message: "input the City", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 }

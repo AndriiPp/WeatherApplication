@@ -120,6 +120,7 @@ class OfflineDetailForecastViewController: UIViewController {
         setupNavBar()
         printForecast()
     }
+    //MARK:- private methods
     private func setupNavBar(){
         view.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 227, g: 243, b: 90)

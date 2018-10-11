@@ -32,6 +32,7 @@ class OfflineCityListTableViewController: UITableViewController, NSFetchedResult
         let nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 24)!]
     }
+    //MARK:- CoreData methods
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -62,7 +63,7 @@ class OfflineCityListTableViewController: UITableViewController, NSFetchedResult
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-
+    //MARK:- tableView methods
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let  forecast = fetchedResultController.object(at: indexPath) as! Forecast
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CityTableViewCell
@@ -71,9 +72,6 @@ class OfflineCityListTableViewController: UITableViewController, NSFetchedResult
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
-    }
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let sections = fetchedResultController.sections {
@@ -89,17 +87,17 @@ class OfflineCityListTableViewController: UITableViewController, NSFetchedResult
         }
     }
     
-    private func showForecast(city : String){
-        let offlineDetailForecastViewController = OfflineDetailForecastViewController()
-        navigationController?.pushViewController(offlineDetailForecastViewController, animated: true)
-        offlineDetailForecastViewController.cityLabel.text = city
-
-    }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let managedObject = fetchedResultController.object(at: indexPath) as! NSManagedObject
             CoreDataManager.instance.managedObjectContext.delete(managedObject)
             CoreDataManager.instance.saveContext()
         }
+    }
+    private func showForecast(city : String){
+        let offlineDetailForecastViewController = OfflineDetailForecastViewController()
+        navigationController?.pushViewController(offlineDetailForecastViewController, animated: true)
+        offlineDetailForecastViewController.cityLabel.text = city
+        
     }
 }

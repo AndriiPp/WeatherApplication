@@ -28,6 +28,7 @@ class DetailForecastTableViewController: UITableViewController {
             
         }
     }
+    //MARK:- tableView standart methods
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! DetailForecastTableViewCell
         cell.timeLabel.text = forecast[indexPath.row].date?.description
@@ -39,9 +40,6 @@ class DetailForecastTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
-    }
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return forecast.count

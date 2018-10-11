@@ -39,7 +39,7 @@ class NetworkManager: NSObject {
     @objc func networkStatusChanged(_ notification: Notification) {
       
     }
-    
+    //MARK:- methods which checking the internet
     static func stopNotifier() -> Void {
         do {
             try (NetworkManager.sharedInstance.reachability).startNotifier()
