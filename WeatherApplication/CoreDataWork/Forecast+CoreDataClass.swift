@@ -2,7 +2,7 @@
 //  Forecast+CoreDataClass.swift
 //  WeatherApplication
 //
-//  Created by Andrii Pyvovarov on 09.10.18.
+//  Created by Andrii Pyvovarov on 10.10.18.
 //  Copyright © 2018 Andrii Pyvovarov. All rights reserved.
 //
 //

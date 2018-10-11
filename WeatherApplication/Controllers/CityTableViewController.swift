@@ -12,7 +12,7 @@ import CoreData
 class CityTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     var cellId = "cityId"
     
-    var fetchedResultController  = CoreDataManager.instance.fetchedResultController(entityName: "Sity", keyForSort: "city")
+    var fetchedResultController  = CoreDataManager.instance.fetchedResultController(entityName: "Forecast", keyForSort: "city")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,7 @@ class CityTableViewController: UITableViewController, NSFetchedResultsController
             }
         case .update:
             if let indexPath = indexPath {
-                let city = fetchedResultController.object(at: indexPath) as! Sity
+                let city = fetchedResultController.object(at: indexPath) as! Forecast
                 let cell = tableView.cellForRow(at: indexPath)
             }
         case .move:
@@ -62,11 +62,11 @@ class CityTableViewController: UITableViewController, NSFetchedResultsController
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let  city = fetchedResultController.object(at: indexPath) as! Sity
+        let  forecast = fetchedResultController.object(at: indexPath) as! Forecast
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CityTableViewCell
-        cell.cityLabel.text = city.city
+        cell.cityLabel.text = forecast.city
         return cell
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -83,6 +83,18 @@ class CityTableViewController: UITableViewController, NSFetchedResultsController
             return 0
         }
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let forecast = fetchedResultController.object(at: indexPath) as? Forecast {
+            showForecast(city : forecast.city!)
+        }
+    }
+    
+    func showForecast(city : String){
+        let detailController = OfflineDetailViewController()
+        navigationController?.pushViewController(detailController, animated: true)
+        detailController.cityLabel.text = city
+
+    }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let managedObject = fetchedResultController.object(at: indexPath) as! NSManagedObject
@@ -90,5 +102,4 @@ class CityTableViewController: UITableViewController, NSFetchedResultsController
             CoreDataManager.instance.saveContext()
         }
     }
-    
 }

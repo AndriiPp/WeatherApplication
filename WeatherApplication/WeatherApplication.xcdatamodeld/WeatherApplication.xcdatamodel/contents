@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13241" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Forecast" representedClassName="Forecast" syncable="YES">
-        <attribute name="avg" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="avg" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="max" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="min" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="sity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sity" inverseName="forecast" inverseEntity="Sity" syncable="YES"/>
-    </entity>
-    <entity name="Sity" representedClassName="Sity" syncable="YES">
-        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="forecast" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Forecast" inverseName="sity" inverseEntity="Forecast" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="descript" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="max" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="min" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="Forecast" positionX="-54" positionY="-9" width="128" height="135"/>
-        <element name="Sity" positionX="160" positionY="45" width="128" height="73"/>
     </elements>
 </model>

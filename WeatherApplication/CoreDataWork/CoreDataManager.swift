@@ -13,6 +13,15 @@ class CoreDataManager {
     static let instance = CoreDataManager()
     private init(){}
     
+    func fetchedResultControllerByName(entityName : String, sity: String) -> NSFetchRequest<NSFetchRequestResult>  {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        let predicate = NSPredicate(format: "sity == %@", sity)
+        fetchRequest.predicate = predicate
+        fetchRequest.fetchLimit = 1
+//        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        return fetchRequest
+    }
+    
     func fetchedResultController(entityName : String, keyForSort : String) -> NSFetchedResultsController<NSFetchRequestResult>  {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let sortDescriptor = NSSortDescriptor(key: keyForSort, ascending: true)

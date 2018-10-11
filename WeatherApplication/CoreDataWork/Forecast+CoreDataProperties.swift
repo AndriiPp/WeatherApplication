@@ -2,7 +2,7 @@
 //  Forecast+CoreDataProperties.swift
 //  WeatherApplication
 //
-//  Created by Andrii Pyvovarov on 09.10.18.
+//  Created by Andrii Pyvovarov on 10.10.18.
 //  Copyright © 2018 Andrii Pyvovarov. All rights reserved.
 //
 //
@@ -17,11 +17,11 @@ extension Forecast {
         return NSFetchRequest<Forecast>(entityName: "Forecast")
     }
 
+    @NSManaged public var avg: String?
+    @NSManaged public var date: String?
+    @NSManaged public var descript: String?
+    @NSManaged public var max: String?
+    @NSManaged public var min: String?
     @NSManaged public var city: String?
-    @NSManaged public var min: Float
-    @NSManaged public var max: Float
-    @NSManaged public var avg: Float
-    @NSManaged public var date: NSDate?
-    @NSManaged public var sity: Sity?
 
 }

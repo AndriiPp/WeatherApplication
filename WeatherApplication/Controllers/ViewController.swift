@@ -9,14 +9,18 @@
 import UIKit
 import CoreData
 
-
 class ViewController: UIViewController {
+    
+    let network: NetworkManager = NetworkManager.sharedInstance
     var city = ""
-    var sity : Sity?
+    var forecast : Forecast?
+    var weather : [Weather] = []
     var detailTableController = detailTableViewController()
     var cityTableViewController = CityTableViewController()
     
-    let inputsContainer : UIView = {
+    //MARK:- Views Create
+    
+    lazy var inputsContainer : UIView = {
         let cv = UIView()
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.backgroundColor = UIColor(r: 235, g: 235, b: 235)
@@ -121,65 +125,126 @@ class ViewController: UIViewController {
         button.addTarget(self, action: #selector(offlineWeather), for: .touchUpInside)
         return button
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupSubviews()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navBarTittle()
         OpenWeatherMapAPI.setAPIKey(key: "b5689ff6944f5c600737608a0be51f05")
+        setupNavBar()
+      
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Forecast")
+        do {
+            let results = try CoreDataManager.instance.managedObjectContext.fetch(fetchRequest)
+            for result in results as! [Forecast]{
+                print("city - \(result.min!)")
+                print("city - \(result.max!)")
+                print("city - \(result.avg!)")
+                print("city - \(result.descript!)")
+                print("city - \(result.city!)")
+            }
+        } catch {
+            print(error)
+        }
     }
-    func navBarTittle(){
+
+   private func setupNavBar(){
         view.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 227, g: 243, b: 90)
         navigationItem.title = "Weather"
-        setupSubviews()
     }
     @objc func offlineWeather(){
         self.navigationController?.pushViewController(cityTableViewController, animated: true)
     }
 
     @objc func detailForecast(){
-        self.navigationController?.pushViewController(detailTableController, animated: true)
-        self.detailTableController.city = self.city
-        self.detailTableController.num = Int(self.numberDayText.text!)!
+        NetworkManager.isUnreachable { (_) in
+            self.invalidInternetController()
+        }
+        NetworkManager.isReachable { (_) in
+            self.navigationController?.pushViewController(self.detailTableController, animated: true)
+            self.detailTableController.city = self.city
+            self.detailTableController.num = Int(self.numberDayText.text!)!
+        }
     }
    
     @objc func outputCity(){
-        city = nameCityText.text ?? ""
-        OpenWeatherMapAPI.requestTodaysWeather(city: (city)) { (weather) in
-            if let weather = weather {
-                print("Complete")
-                
-                DispatchQueue.main.async {
-                    self.navigationItem.title = "Weather: " + self.city
-                    self.descriptionLabel.text = "Description: " + weather.description
-                    self.minTemeratureLabel.text = "min temperature: " + String(weather.minTemperature)
-                    self.maxTemeratureLabel.text = "max temperature: " + String(weather.maxTemperature)
-                }
-                print("Set label")
-            } else {
-                DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Invalid City", message: "The city you typed in does not exist.", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                    alert.addAction(okAction)
-                    self.present(alert, animated: true, completion: nil)
+         NetworkManager.isUnreachable { (_) in
+            if self.nameCityText.text!.isEmpty {
+                self.alertCityController()
+            }
+           self.invalidInternetController()
+       }
+        NetworkManager.isReachable { (_) in
+            self.city = self.nameCityText.text ?? ""
+            OpenWeatherMapAPI.requestTodaysWeather(city: (self.city)) { (weather) in
+                if let weather = weather {
+                    print("Complete")
+                    
+                    DispatchQueue.main.async {
+                        self.navigationItem.title = "Weather: " + self.city
+                        self.descriptionLabel.text = "Description: " + weather.description
+                        self.minTemeratureLabel.text = "min temperature: " + String(weather.minTemperature)
+                        self.maxTemeratureLabel.text = "max temperature: " + String(weather.maxTemperature)
+                    }
+                    print("Set label")
+                } else {
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "Invalid City", message: "The city you typed in does not exist.", preferredStyle: .alert)
+                        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                        alert.addAction(okAction)
+                        self.present(alert, animated: true, completion: nil)
+                    }
                 }
             }
         }
     }
+    func invalidInternetController(){
+        let alert = UIAlertController(title: "Invalid Internet", message: "no internet access exist.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
     @objc func addCity(){
-        allertController()
-        if sity == nil {
-            sity = Sity()
+        NetworkManager.isUnreachable { (_) in
+            self.invalidInternetController()
         }
-        if let sity = sity {
-            sity.city = nameCityText.text
-            CoreDataManager.instance.saveContext()
+        NetworkManager.isReachable { (_) in
+            if self.saveForecast() {
+                self.navigationController?.pushViewController(self.cityTableViewController, animated: true)
+            }
         }
     }
-    func allertController(){
-        let alert = UIAlertController(title: nameCityText.text, message: nameCityText.text! + " added to List", preferredStyle: .alert)
+    func alertCityController(){
+        let alert = UIAlertController(title: "Validation error", message: "input the City", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
+    func saveForecast() -> Bool {
+        if nameCityText.text!.isEmpty {
+           alertCityController()
+            return false
+        }
+        OpenWeatherMapAPI.requestTodaysWeather(city: nameCityText.text!) { (weather) in
+            if self.forecast == nil {
+                self.forecast = Forecast()
+            }
+            if let forecast = self.forecast {
+                forecast.date = String(describing: weather!.date)
+                forecast.descript =  String(weather!.description)
+                forecast.min =  "Tmin: " + String(weather!.minTemperature)
+                forecast.max =  "Tmax: " + String(weather!.maxTemperature)
+                forecast.avg =  "Tavg: " + String(weather!.avgTemperature)
+                forecast.city = String(self.nameCityText.text!)
+                CoreDataManager.instance.saveContext()
+            }
+        }
+        return true
+    }
+   
     
     func setupSubviews(){
         view.addSubview(nameCityText)
@@ -253,10 +318,8 @@ class ViewController: UIViewController {
         viewButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 }
-
 extension UIColor {
     convenience init(r: CGFloat, g: CGFloat, b: CGFloat){
         self.init(red: r/255, green: g/255, blue: b/255, alpha: 1)
     }
 }
-
