@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class CityTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class OfflineCityListTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     var cellId = "cityId"
     
     var fetchedResultController  = CoreDataManager.instance.fetchedResultController(entityName: "Forecast", keyForSort: "city")
@@ -29,7 +29,7 @@ class CityTableViewController: UITableViewController, NSFetchedResultsController
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        var nav = self.navigationController?.navigationBar
+        let nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 24)!]
     }
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -89,10 +89,10 @@ class CityTableViewController: UITableViewController, NSFetchedResultsController
         }
     }
     
-    func showForecast(city : String){
-        let detailController = OfflineDetailViewController()
-        navigationController?.pushViewController(detailController, animated: true)
-        detailController.cityLabel.text = city
+    private func showForecast(city : String){
+        let offlineDetailForecastViewController = OfflineDetailForecastViewController()
+        navigationController?.pushViewController(offlineDetailForecastViewController, animated: true)
+        offlineDetailForecastViewController.cityLabel.text = city
 
     }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

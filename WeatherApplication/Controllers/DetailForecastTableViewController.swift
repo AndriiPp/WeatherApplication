@@ -9,12 +9,11 @@
 import UIKit
 import CoreData
 
-class detailTableViewController: UITableViewController {
+class DetailForecastTableViewController: UITableViewController {
     var cellId = "cellid"
     var city = ""
     var num = 0
     
- 
     var forecast: [Weather] = [] {
         didSet {
             tableView.reloadData()
@@ -23,15 +22,14 @@ class detailTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
-        tableView.register(WeatherTableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(DetailForecastTableViewCell.self, forCellReuseIdentifier: cellId)
         OpenWeatherMapAPI.requestWeatherForecast(city: self.city, days: self.num) { (forecast) in
             self.forecast = forecast
             
         }
     }
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! WeatherTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! DetailForecastTableViewCell
         cell.timeLabel.text = forecast[indexPath.row].date?.description
         cell.descriptionLabel.text = "Description: " + forecast[indexPath.row].description
         cell.minLabel.text = "Min: " + String(forecast[indexPath.row].minTemperature)

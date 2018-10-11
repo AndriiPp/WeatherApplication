@@ -13,13 +13,18 @@ class CoreDataManager {
     static let instance = CoreDataManager()
     private init(){}
     
-    func fetchedResultControllerByName(entityName : String, sity: String) -> NSFetchRequest<NSFetchRequestResult>  {
+    func deleteObjectByfetchedRequest(entityName : String, sity: String)   {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let predicate = NSPredicate(format: "sity == %@", sity)
         fetchRequest.predicate = predicate
+        fetchRequest.returnsObjectsAsFaults = false
         fetchRequest.fetchLimit = 1
-//        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataManager.instance.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        return fetchRequest
+        if let result =  try? managedObjectContext.fetch(fetchRequest) {
+            for object in result {
+            managedObjectContext.delete(object as! NSManagedObject)
+            saveContext()
+            }
+        }
     }
     
     func fetchedResultController(entityName : String, keyForSort : String) -> NSFetchedResultsController<NSFetchRequestResult>  {

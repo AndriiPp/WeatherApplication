@@ -5,15 +5,15 @@
 //  Created by Andrii Pyvovarov on 09.10.18.
 //  Copyright © 2018 Andrii Pyvovarov. All rights reserved.
 //
-
 import UIKit
 import CoreData
 
-class OfflineDetailViewController: UIViewController {
+class OfflineDetailForecastViewController: UIViewController {
     let network: NetworkManager = NetworkManager.sharedInstance
     var forecast : Forecast?
     var weather : [Weather] = []
     var city = ""
+    //MARK:- Views Create
     lazy var inputsContainer : UIView = {
         let cv = UIView()
         cv.translatesAutoresizingMaskIntoConstraints = false
@@ -67,15 +67,58 @@ class OfflineDetailViewController: UIViewController {
         cv.backgroundColor = UIColor.black
         return cv
     }()
+    //MARK:- Adding elements on view
+    func setupSubviews(){
+        view.addSubview(inputsContainer)
+        inputsContainer.addSubview(cityLabel)
+        inputsContainer.addSubview(citySeparator)
+        inputsContainer.addSubview(descriptionLabel)
+        inputsContainer.addSubview(minTemeratureLabel)
+        inputsContainer.addSubview(maxTemeratureLabel)
+        inputsContainer.addSubview(avgLabel)
+        
+        inputsContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
+        inputsContainer.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50).isActive = true
+        inputsContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        inputsContainer.heightAnchor.constraint(equalToConstant: 380).isActive = true
+        
+        cityLabel.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor, constant: 12).isActive = true
+        cityLabel.topAnchor.constraint(equalTo: inputsContainer.topAnchor).isActive = true
+        cityLabel.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
+        cityLabel.heightAnchor.constraint(equalTo: inputsContainer.heightAnchor, multiplier: 1/5).isActive = true
+        
+        citySeparator.topAnchor.constraint(equalTo: cityLabel.bottomAnchor).isActive = true
+        citySeparator.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor).isActive = true
+        citySeparator.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
+        citySeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        
+        descriptionLabel.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor, constant: 12).isActive = true
+        descriptionLabel.topAnchor.constraint(equalTo: citySeparator.bottomAnchor).isActive = true
+        descriptionLabel.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
+        descriptionLabel.heightAnchor.constraint(equalTo: inputsContainer.heightAnchor, multiplier: 1/5).isActive = true
+        minTemeratureLabel.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor, constant: 12).isActive = true
+        minTemeratureLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor).isActive = true
+        minTemeratureLabel.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
+        minTemeratureLabel.heightAnchor.constraint(equalTo: inputsContainer.heightAnchor, multiplier: 1/5).isActive = true
+        maxTemeratureLabel.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor, constant: 12).isActive = true
+        maxTemeratureLabel.topAnchor.constraint(equalTo: minTemeratureLabel.bottomAnchor).isActive = true
+        maxTemeratureLabel.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
+        maxTemeratureLabel.heightAnchor.constraint(equalTo: inputsContainer.heightAnchor, multiplier: 1/5).isActive = true
+        avgLabel.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor, constant: 12).isActive = true
+        avgLabel.topAnchor.constraint(equalTo: maxTemeratureLabel.bottomAnchor).isActive = true
+        avgLabel.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
+        avgLabel.heightAnchor.constraint(equalTo: inputsContainer.heightAnchor, multiplier: 1/5).isActive = true
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupSubviews()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         setupNavBar()
         printForecast()
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupSubviews()
     }
     private func setupNavBar(){
         view.backgroundColor = UIColor.white
@@ -117,6 +160,7 @@ class OfflineDetailViewController: UIViewController {
         if let result =  try? CoreDataManager.instance.managedObjectContext.fetch(request) {
             for object in result {
                 CoreDataManager.instance.managedObjectContext.delete(object as! NSManagedObject)
+                CoreDataManager.instance.saveContext()
             }
         }
         OpenWeatherMapAPI.requestTodaysWeather(city: self.city) { (weather) in
@@ -141,48 +185,5 @@ class OfflineDetailViewController: UIViewController {
                 }
             }
         }
-    }
-        
-    
-    func setupSubviews(){
-        view.addSubview(inputsContainer)
-        inputsContainer.addSubview(cityLabel)
-        inputsContainer.addSubview(citySeparator)
-        inputsContainer.addSubview(descriptionLabel)
-        inputsContainer.addSubview(minTemeratureLabel)
-        inputsContainer.addSubview(maxTemeratureLabel)
-        inputsContainer.addSubview(avgLabel)
-        
-        inputsContainer.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
-        inputsContainer.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50).isActive = true
-        inputsContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        inputsContainer.heightAnchor.constraint(equalToConstant: 380).isActive = true
-        
-        cityLabel.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor, constant: 12).isActive = true
-        cityLabel.topAnchor.constraint(equalTo: inputsContainer.topAnchor).isActive = true
-        cityLabel.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
-        cityLabel.heightAnchor.constraint(equalTo: inputsContainer.heightAnchor, multiplier: 1/5).isActive = true
-        
-        citySeparator.topAnchor.constraint(equalTo: cityLabel.bottomAnchor).isActive = true
-        citySeparator.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor).isActive = true
-        citySeparator.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
-        citySeparator.heightAnchor.constraint(equalToConstant: 1).isActive = true
-        
-        descriptionLabel.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor, constant: 12).isActive = true
-        descriptionLabel.topAnchor.constraint(equalTo: citySeparator.bottomAnchor).isActive = true
-        descriptionLabel.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
-        descriptionLabel.heightAnchor.constraint(equalTo: inputsContainer.heightAnchor, multiplier: 1/5).isActive = true
-        minTemeratureLabel.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor, constant: 12).isActive = true
-        minTemeratureLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor).isActive = true
-        minTemeratureLabel.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
-        minTemeratureLabel.heightAnchor.constraint(equalTo: inputsContainer.heightAnchor, multiplier: 1/5).isActive = true
-        maxTemeratureLabel.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor, constant: 12).isActive = true
-        maxTemeratureLabel.topAnchor.constraint(equalTo: minTemeratureLabel.bottomAnchor).isActive = true
-        maxTemeratureLabel.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
-        maxTemeratureLabel.heightAnchor.constraint(equalTo: inputsContainer.heightAnchor, multiplier: 1/5).isActive = true
-        avgLabel.leftAnchor.constraint(equalTo: inputsContainer.leftAnchor, constant: 12).isActive = true
-        avgLabel.topAnchor.constraint(equalTo: maxTemeratureLabel.bottomAnchor).isActive = true
-        avgLabel.widthAnchor.constraint(equalTo: inputsContainer.widthAnchor).isActive = true
-        avgLabel.heightAnchor.constraint(equalTo: inputsContainer.heightAnchor, multiplier: 1/5).isActive = true
     }
 }

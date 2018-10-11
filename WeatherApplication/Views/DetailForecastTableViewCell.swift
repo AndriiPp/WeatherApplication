@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WeatherTableViewCell: UITableViewCell {
+class DetailForecastTableViewCell: UITableViewCell {
     let timeLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)

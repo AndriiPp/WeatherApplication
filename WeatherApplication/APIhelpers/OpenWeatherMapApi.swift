@@ -109,7 +109,6 @@ func parseToForecast(json: [String: AnyObject?], temperatureUnit: TemperatureUni
             let myDescription = myI!["weather"] as? [[String: AnyObject]]
             print("\n\n\n")
             print(myDescription?[0]["description"] as? String as Any)
-            //let description: String = (myDescription!["description"] as? String)!
             let description: String = (myDescription?[0]["description"] as? String) ?? "no description"
             let minTemperature: Float = (myI!["temp"]!["min"] as? Float)!
             let maxTemperature: Float = (myI!["temp"]!["max"] as? Float)!

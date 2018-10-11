@@ -59,16 +59,4 @@ class NetworkManager: NSObject {
             completed(NetworkManager.sharedInstance)
         }
     }
-    
-    static func isReachableViaWWAN(completed: @escaping (NetworkManager) -> Void) {
-        if (NetworkManager.sharedInstance.reachability).connection == .cellular {
-            completed(NetworkManager.sharedInstance)
-        }
-    }
-    
-    static func isReachableViaWiFi(completed: @escaping (NetworkManager) -> Void) {
-        if (NetworkManager.sharedInstance.reachability).connection == .wifi {
-            completed(NetworkManager.sharedInstance)
-        }
-    }
 }
