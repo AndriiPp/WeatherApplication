@@ -32,7 +32,7 @@ class OfflineCityListTableViewController: UITableViewController, NSFetchedResult
         let nav = self.navigationController?.navigationBar
         nav?.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 24)!]
     }
-    //MARK:- CoreData methods
+    //MARK: - CoreData methods
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }

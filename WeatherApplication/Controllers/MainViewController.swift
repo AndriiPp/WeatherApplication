@@ -225,9 +225,10 @@ class MainViewController: UIViewController {
             self.invalidAllertController(title: "Invalid Internet", message: "no internet access exist.")
         }
         NetworkManager.isReachable { (_) in
-            self.navigationController?.pushViewController(self.detailForecastTableViewController, animated: true)
-            self.detailForecastTableViewController.city = self.city
-            self.detailForecastTableViewController.num = Int(self.numberDayText.text!)!
+            
+                self.navigationController?.pushViewController(self.detailForecastTableViewController, animated: true)
+                self.detailForecastTableViewController.city = self.city
+                self.detailForecastTableViewController.num = Int(self.numberDayText.text!)!
         }
     }
     
@@ -272,6 +273,16 @@ class MainViewController: UIViewController {
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension MainViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
 
