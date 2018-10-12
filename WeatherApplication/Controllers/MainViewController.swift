@@ -14,7 +14,7 @@ class MainViewController: UIViewController {
     
     var city = ""
     var forecast : Forecast?
-    var weather : [Weather] = []
+    var weather : [Weather]? = []
     var offlineCityListTableViewController = OfflineCityListTableViewController()
     var detailForecastTableViewController = DetailForecastTableViewController()
     
@@ -225,10 +225,10 @@ class MainViewController: UIViewController {
             self.invalidAllertController(title: "Invalid Internet", message: "no internet access exist.")
         }
         NetworkManager.isReachable { (_) in
-            
                 self.navigationController?.pushViewController(self.detailForecastTableViewController, animated: true)
                 self.detailForecastTableViewController.city = self.city
                 self.detailForecastTableViewController.num = Int(self.numberDayText.text!)!
+            
         }
     }
     

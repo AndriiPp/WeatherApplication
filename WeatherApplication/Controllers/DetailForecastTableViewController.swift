@@ -14,18 +14,19 @@ class DetailForecastTableViewController: UITableViewController {
     var city = ""
     var num = 0
     
-    var forecast: [Weather] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var forecast: [Weather] = []
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         tableView.register(DetailForecastTableViewCell.self, forCellReuseIdentifier: cellId)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         OpenWeatherMapAPI.requestWeatherForecast(city: self.city, days: self.num) { (forecast) in
             self.forecast = forecast
-            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     //MARK:- tableView standart methods
