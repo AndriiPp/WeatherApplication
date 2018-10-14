@@ -115,7 +115,6 @@ func parseToForecast(json: [String: AnyObject?], temperatureUnit: TemperatureUni
             let avgTemperature = Float((minTemperature + maxTemperature) / 2)
             let date: Int = ((myI!["dt"])! as? Int)!
             let realDate = NSDate(timeIntervalSince1970: TimeInterval(date))
-            
             let weather = Weather(date: realDate, description: description, minTemperature: minTemperature, maxTemperature: maxTemperature, avgTemperature: avgTemperature, temperatureUnit: temperatureUnit)
             weatherList.append(weather)
         }

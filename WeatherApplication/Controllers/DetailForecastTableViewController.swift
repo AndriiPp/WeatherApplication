@@ -12,7 +12,7 @@ import CoreData
 class DetailForecastTableViewController: UITableViewController {
     var cellId = "cellid"
     var city = ""
-    var num = 0
+    var num = 1
     
     var forecast: [Weather] = []
     override func viewDidLoad() {
@@ -23,11 +23,20 @@ class DetailForecastTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         OpenWeatherMapAPI.requestWeatherForecast(city: self.city, days: self.num) { (forecast) in
-            self.forecast = forecast
+           
+             self.forecast = forecast
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-            }
+                }
+            
         }
+    }
+    
+    private func invalidAllertController(title : String, message : String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
     }
     //MARK:- tableView standart methods
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

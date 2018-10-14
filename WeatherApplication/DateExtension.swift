@@ -10,14 +10,14 @@ import Foundation
 import Foundation
 
 extension Date {
-    static func getFormattedDate(string: String , formatter:String) -> String{
-        let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+    static func getFormattedDate(string: String) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss +zzzz" // This formate is input formated .
         
-        let dateFormatterPrint = DateFormatter()
-        dateFormatterPrint.dateFormat = "MMM dd,yyyy"
+        let formateDate = dateFormatter.date(from:"2018-02-02 06:50:16 +0000")!
+        dateFormatter.dateFormat = "dd-MM-yyyy" // Output Formated
         
-        let date: Date? = dateFormatterGet.date(from: "2018-02-01T19:10:04+00:00")
-        return dateFormatterPrint.string(from: date!);
+        print ("Print :\(dateFormatter.string(from: formateDate))")//Print :02-02-2018
+        return dateFormatter.string(from: formateDate)
     }
 }

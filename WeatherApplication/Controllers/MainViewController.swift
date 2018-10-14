@@ -198,11 +198,11 @@ class MainViewController: UIViewController {
     //MARK:- button methods
     @objc func searchWeatherForCity(){
         NetworkManager.isUnreachable { (_) in
-            if self.nameCityText.text!.isEmpty {
-                self.invalidAllertController(title: "Validation error", message: "input the City")
-            }
             self.invalidAllertController(title: "Invalid Internet", message: "no internet access exist.")
         }
+        if self.nameCityText.text!.isEmpty {
+            self.invalidAllertController(title: "Validation error", message: "input the City")
+        } else {
         NetworkManager.isReachable { (_) in
             self.city = self.nameCityText.text ?? ""
             OpenWeatherMapAPI.requestTodaysWeather(city: (self.city)) { (weather) in
@@ -215,6 +215,7 @@ class MainViewController: UIViewController {
                     }
                 } else {
                         self.invalidAllertController(title: "Invalid City", message: "The city you typed in does not exist.")
+                    }
                 }
             }
         }
@@ -224,11 +225,18 @@ class MainViewController: UIViewController {
         NetworkManager.isUnreachable { (_) in
             self.invalidAllertController(title: "Invalid Internet", message: "no internet access exist.")
         }
+        if nameCityText.text!.isEmpty || numberDayText.text!.isEmpty || (Int(self.numberDayText.text!)) == nil{
+            invalidAllertController(title: "Validation error", message: "check the city and the number of days")
+        } else  {
+            if Int(self.numberDayText.text!)!<0 || Int(self.numberDayText.text!)! > 14{
+                invalidAllertController(title: "Number of days", message: "the number of days must be less than 14 and over 0")
+            } else {
         NetworkManager.isReachable { (_) in
                 self.navigationController?.pushViewController(self.detailForecastTableViewController, animated: true)
-                self.detailForecastTableViewController.city = self.city
+                self.detailForecastTableViewController.city = self.nameCityText.text!
                 self.detailForecastTableViewController.num = Int(self.numberDayText.text!)!
-            
+                }
+            }
         }
     }
     

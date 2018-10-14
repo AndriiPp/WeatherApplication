@@ -6,6 +6,7 @@ target 'WeatherApplication' do
   use_frameworks!
       pod 'ReachabilitySwift'
       pod 'Alamofire'
+      pod 'IQKeyboardManagerSwift'
   # Pods for WeatherApplication
 
 end
