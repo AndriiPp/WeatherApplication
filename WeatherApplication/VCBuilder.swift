@@ -27,4 +27,9 @@ class VCBuilder {
         let controller = storyboard.instantiateViewController(withIdentifier: "OfflineCityListIdent")
         return controller
     }
+    class func createOfflineDetailVC() -> UIViewController {
+        let storyboard = UIStoryboard(name: "OfflineDetailForecastStory", bundle: nil)
+        let controller = storyboard.instantiateViewController(withIdentifier: "OfflineDetailIdent")
+        return controller
+    }
 }

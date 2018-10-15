@@ -2,10 +2,9 @@
 //  ColorExtension.swift
 //  WeatherApplication
 //
-//  Created by Andrii Pyvovarov on 11.10.18.
+//  Created by Andrii Pyvovarov on 16.10.18.
 //  Copyright © 2018 Andrii Pyvovarov. All rights reserved.
 //
-
 import UIKit
 
 extension UIColor {
@@ -13,5 +12,3 @@ extension UIColor {
         self.init(red: r/255, green: g/255, blue: b/255, alpha: 1)
     }
 }
-
-

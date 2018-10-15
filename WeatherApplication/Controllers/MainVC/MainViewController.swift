@@ -38,9 +38,6 @@ class MainViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 227, g: 243, b: 90)
         navigationItem.title = "Weather"
     }
-    
-    
-    
     //MARK:- Buttons Actions
     
     @IBAction func doneButton(_ sender: UIButton) {
@@ -56,7 +53,7 @@ class MainViewController: UIViewController {
                     if weather != nil {
                         DispatchQueue.main.async {
                             self.navigationItem.title = "Weather: " + self.city
-                            self.tempLabel.text = "Description: " + weather!.description + "\n min temperature: " + String(describing: weather?.minTemperature) + "\n max temperature: " + String(describing: weather?.maxTemperature)
+                            self.tempLabel.text = "  " + weather!.description + "\n Tmin: " + String(describing: weather!.minTemperature) + "\n Tmax: " + String(describing: weather!.maxTemperature)
                         }
                     } else {
                         self.invalidAllertController(title: "Invalid City", message: "The city you typed in does not exist.")
@@ -115,13 +112,16 @@ class MainViewController: UIViewController {
                 self.forecast = Forecast()
             }
             if let forecast = self.forecast {
-                forecast.date = String(describing: weather!.date)
-                forecast.descript =  String(weather!.description)
-                forecast.min =  "Tmin: " + String(weather!.minTemperature)
-                forecast.max =  "Tmax: " + String(weather!.maxTemperature)
-                forecast.avg =  "Tavg: " + String(weather!.avgTemperature)
-                forecast.city = String(self.searchCityTextField.text!)
-                CoreDataManager.instance.saveContext()
+                DispatchQueue.main.async {
+                    
+                    forecast.date = String(describing: weather!.date)
+                    forecast.descript =  String(weather!.description)
+                    forecast.min =  String(weather!.minTemperature)
+                    forecast.max =  String(weather!.maxTemperature)
+                    forecast.avg =  String(weather!.avgTemperature)
+                    forecast.city = String(self.searchCityTextField.text!)
+                    CoreDataManager.instance.saveContext()
+                }
             }
         }
         return true

@@ -38,9 +38,9 @@ class OfflineCityListTableViewController: UIViewController {
         nav?.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont(name: "CourierNewPS-BoldItalicMT", size: 24)!]
     }
     private func showForecast(city : String){
-        let offlineDetailForecastViewController = OfflineDetailForecastViewController()
-        navigationController?.pushViewController(offlineDetailForecastViewController, animated: true)
-        offlineDetailForecastViewController.cityLabel.text = city
+        weak var offlineDetailVC = (VCBuilder.createOfflineDetailVC() as! OfflineDetailForecastViewController)
+        navigationController?.pushViewController(offlineDetailVC!, animated: true)
+        offlineDetailVC?.city = city
         
     }
 }

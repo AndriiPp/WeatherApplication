@@ -28,14 +28,19 @@ class DetailForecastTableViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print("sdfsdsd \(city)")
-        
         OpenWeatherMapAPI.requestWeatherForecast(city: self.city, days: self.num) { (forecast) in
             self.forecast = forecast
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
+    }
+    func formatData(date : Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale(identifier: "en_US")
+        return dateFormatter.string(from:date)
     }
 }
 
@@ -47,12 +52,7 @@ extension DetailForecastTableViewController: UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! DetailForecastTableViewCell
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        dateFormatter.locale = Locale(identifier: "en_US")
-        
-        cell.timeLabel.text = dateFormatter.string(from: forecast[indexPath.row].date! as Date)
+        cell.timeLabel.text = formatData(date: forecast[indexPath.row].date! as Date)
         cell.descriptionLabel.text = "Description: " + forecast[indexPath.row].description
         cell.minLabel.text = "Min: " + String(forecast[indexPath.row].minTemperature)
         cell.maxLabel.text = "Max: " + String(forecast[indexPath.row].maxTemperature)
