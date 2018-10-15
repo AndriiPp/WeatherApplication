@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9UE-93-flg">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="037-Qv-L2j">
+            <objects>
+                <viewController storyboardIdentifier="MainVCStoryIdent" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9UE-93-flg" customClass="MainViewController" customModule="WeatherApplication" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nef-XO-1vf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter days count" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kI6-Hh-qPb">
+                                <rect key="frame" x="78" y="368" width="219" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h3S-YB-8Xb">
+                                <rect key="frame" x="164.5" y="148" width="46" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="1At-N2-WQr"/>
+                                    <constraint firstAttribute="height" constant="30" id="ZhB-K9-Da7"/>
+                                </constraints>
+                                <state key="normal" title="Done"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiusV">
+                                        <real key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="doneButton:" destination="9UE-93-flg" eventType="touchUpInside" id="X7k-CQ-k7Q"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OcY-JB-ldc">
+                                <rect key="frame" x="215" y="426" width="90" height="30"/>
+                                <state key="normal" title="Change days"/>
+                                <connections>
+                                    <action selector="changeDaysButton:" destination="9UE-93-flg" eventType="touchUpInside" id="zms-OY-91f"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CLc-W1-dMb">
+                                <rect key="frame" x="78" y="426" width="57" height="30"/>
+                                <state key="normal" title="Add city"/>
+                                <connections>
+                                    <action selector="addCityButton:" destination="9UE-93-flg" eventType="touchUpInside" id="NqG-dY-iX6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ex2-w8-l7k">
+                                <rect key="frame" x="152" y="496" width="71" height="30"/>
+                                <state key="normal" title="Saved city"/>
+                                <connections>
+                                    <action selector="SavedCityButton:" destination="9UE-93-flg" eventType="touchUpInside" id="dq2-on-U8p"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UVg-rh-Ejh">
+                                <rect key="frame" x="78" y="196" width="219" height="164"/>
+                                <color key="backgroundColor" red="0.92929227466597064" green="0.96034824685221609" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="164" id="ZEa-KS-sps"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter city" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lmf-NH-GvN">
+                                <rect key="frame" x="78" y="87" width="219" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="UVg-rh-Ejh" firstAttribute="top" secondItem="nef-XO-1vf" secondAttribute="top" constant="196" id="5lJ-NG-Sl8"/>
+                            <constraint firstItem="UVg-rh-Ejh" firstAttribute="centerX" secondItem="h3S-YB-8Xb" secondAttribute="centerX" id="82u-ST-4mf"/>
+                            <constraint firstItem="CLc-W1-dMb" firstAttribute="top" secondItem="kI6-Hh-qPb" secondAttribute="bottom" constant="28" id="CJN-iD-Uz4"/>
+                            <constraint firstItem="ex2-w8-l7k" firstAttribute="centerX" secondItem="lcr-pj-bkF" secondAttribute="centerX" id="Cal-ve-hfP"/>
+                            <constraint firstItem="CLc-W1-dMb" firstAttribute="leading" secondItem="lcr-pj-bkF" secondAttribute="leading" constant="78" id="Iht-s2-Sy7"/>
+                            <constraint firstItem="lcr-pj-bkF" firstAttribute="trailing" secondItem="OcY-JB-ldc" secondAttribute="trailing" constant="70" id="WKv-qw-moW"/>
+                            <constraint firstItem="UVg-rh-Ejh" firstAttribute="top" secondItem="h3S-YB-8Xb" secondAttribute="bottom" constant="18" id="X1Q-8x-Kul"/>
+                            <constraint firstItem="UVg-rh-Ejh" firstAttribute="leading" secondItem="kI6-Hh-qPb" secondAttribute="leading" id="bjH-q4-xkE"/>
+                            <constraint firstItem="UVg-rh-Ejh" firstAttribute="trailing" secondItem="kI6-Hh-qPb" secondAttribute="trailing" id="frG-Ul-vWE"/>
+                            <constraint firstItem="UVg-rh-Ejh" firstAttribute="leading" secondItem="lcr-pj-bkF" secondAttribute="leading" constant="78" id="gjA-fi-8vw"/>
+                            <constraint firstItem="ex2-w8-l7k" firstAttribute="top" secondItem="kI6-Hh-qPb" secondAttribute="bottom" constant="98" id="glf-1X-Qqw"/>
+                            <constraint firstItem="h3S-YB-8Xb" firstAttribute="top" secondItem="Lmf-NH-GvN" secondAttribute="bottom" constant="31" id="ngE-TJ-3HF"/>
+                            <constraint firstItem="UVg-rh-Ejh" firstAttribute="trailing" secondItem="Lmf-NH-GvN" secondAttribute="trailing" id="ntG-2O-PnU"/>
+                            <constraint firstItem="UVg-rh-Ejh" firstAttribute="leading" secondItem="Lmf-NH-GvN" secondAttribute="leading" id="vQT-8C-rAd"/>
+                            <constraint firstItem="UVg-rh-Ejh" firstAttribute="centerX" secondItem="nef-XO-1vf" secondAttribute="centerX" id="vch-bL-REJ"/>
+                            <constraint firstItem="OcY-JB-ldc" firstAttribute="top" secondItem="kI6-Hh-qPb" secondAttribute="bottom" constant="28" id="w3e-Mw-Jfi"/>
+                            <constraint firstItem="kI6-Hh-qPb" firstAttribute="top" secondItem="UVg-rh-Ejh" secondAttribute="bottom" constant="8" symbolic="YES" id="xxS-Ui-Uga"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="lcr-pj-bkF"/>
+                    </view>
+                    <connections>
+                        <outlet property="changeDaysTextField" destination="kI6-Hh-qPb" id="NTu-sR-wZA"/>
+                        <outlet property="searchCityTextField" destination="Lmf-NH-GvN" id="ChS-6N-Le7"/>
+                        <outlet property="tempLabel" destination="UVg-rh-Ejh" id="4tW-ph-vUj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cFg-Ai-z7h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="128.80000000000001" y="106.59670164917542"/>
+        </scene>
+    </scenes>
+</document>

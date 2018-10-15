@@ -9,9 +9,12 @@
 import UIKit
 import CoreData
 
-class DetailForecastTableViewController: UITableViewController {
+class DetailForecastTableViewController: UIViewController {
+    
+    @IBOutlet weak var tableView: UITableView!
+    
     var cellId = "cellid"
-    var city = ""
+    public var city = ""
     var num = 1
     
     var forecast: [Weather] = []
@@ -19,40 +22,45 @@ class DetailForecastTableViewController: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         tableView.register(DetailForecastTableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        print("sdfsdsd \(city)")
+        
         OpenWeatherMapAPI.requestWeatherForecast(city: self.city, days: self.num) { (forecast) in
-           
-             self.forecast = forecast
+            self.forecast = forecast
             DispatchQueue.main.async {
                 self.tableView.reloadData()
-                }
-            
+            }
         }
     }
-    
-    private func invalidAllertController(title : String, message : String){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        alert.addAction(okAction)
-        self.present(alert, animated: true, completion: nil)
+}
+
+extension DetailForecastTableViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return forecast.count
     }
-    //MARK:- tableView standart methods
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId) as! DetailForecastTableViewCell
-        cell.timeLabel.text = forecast[indexPath.row].date?.description
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        dateFormatter.locale = Locale(identifier: "en_US")
+        
+        cell.timeLabel.text = dateFormatter.string(from: forecast[indexPath.row].date! as Date)
         cell.descriptionLabel.text = "Description: " + forecast[indexPath.row].description
         cell.minLabel.text = "Min: " + String(forecast[indexPath.row].minTemperature)
         cell.maxLabel.text = "Max: " + String(forecast[indexPath.row].maxTemperature)
         cell.avgLabel.text = "Avg: " + String(forecast[indexPath.row].avgTemperature)
         return cell
     }
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 150
-    }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return forecast.count
-        
     }
 }
