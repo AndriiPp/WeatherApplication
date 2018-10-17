@@ -83,9 +83,9 @@ func parseToWeather(json: [String: AnyObject?], temperatureUnit: TemperatureUnit
     if let weath = json["weather"] as? [NSDictionary] {
         
         let description: String = (weath[0]["description"]! as? String)!
-        let minTemperature: Float = (json["main"]!!["temp_min"] as? Float)!
-        let maxTemperature: Float = (json["main"]!!["temp_max"] as? Float)!
-        let avgTemperature = Float((minTemperature + maxTemperature) / 2)
+        let minTemperature = (json["main"]!!["temp_min"] as? Double)!
+        let maxTemperature = (json["main"]!!["temp_max"] as? Double)!
+        let avgTemperature = Double((minTemperature + maxTemperature) / 2)
         
         let weather = Weather(date: nil, description: description, minTemperature: minTemperature, maxTemperature: maxTemperature, avgTemperature: avgTemperature, temperatureUnit: temperatureUnit)
         return(weather)
@@ -105,9 +105,9 @@ func parseToForecast(json: [String: AnyObject?], temperatureUnit: TemperatureUni
             
             let myDescription = myI!["weather"] as? [[String: AnyObject]]
             let description: String = (myDescription?[0]["description"] as? String) ?? "no description"
-            let minTemperature: Float = (myI!["temp"]!["min"] as? Float)!
-            let maxTemperature: Float = (myI!["temp"]!["max"] as? Float)!
-            let avgTemperature = Float((minTemperature + maxTemperature) / 2)
+            let minTemperature = (myI!["temp"]!["min"] as? Double)!
+            let maxTemperature = (myI!["temp"]!["max"] as? Double)!
+            let avgTemperature = Double((minTemperature + maxTemperature) / 2)
             let date: Int = ((myI!["dt"])! as? Int)!
             let realDate = NSDate(timeIntervalSince1970: TimeInterval(date))
             let weather = Weather(date: realDate, description: description, minTemperature: minTemperature, maxTemperature: maxTemperature, avgTemperature: avgTemperature, temperatureUnit: temperatureUnit)

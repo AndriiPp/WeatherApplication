@@ -17,8 +17,8 @@ enum TemperatureUnit: String {
 struct Weather {
     let date: NSDate?
     let description: String
-    let minTemperature: Float
-    let maxTemperature: Float
-    let avgTemperature: Float
+    let minTemperature: Double
+    let maxTemperature: Double
+    let avgTemperature: Double
     let temperatureUnit: TemperatureUnit
 }
